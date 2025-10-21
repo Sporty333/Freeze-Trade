@@ -1,0 +1,84 @@
+-- GUI Script: Toggle Panel (Trade Freeze / Force Accept)
+-- Works in Roblox Studio or LocalScript (StarterGui)
+
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "CustomToggles"
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+screenGui.ResetOnSpawn = false
+
+-- Main frame
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 220, 0, 110)
+mainFrame.Position = UDim2.new(0.5, -110, 0.5, -55)
+mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.Draggable = true
+mainFrame.Parent = screenGui
+
+-- Round corners for main frame
+local mainCorner = Instance.new("UICorner")
+mainCorner.CornerRadius = UDim.new(0, 8)
+mainCorner.Parent = mainFrame
+
+-- Create toggle function
+local function createToggle(name, yPosition)
+local toggleFrame = Instance.new("Frame")
+toggleFrame.Size = UDim2.new(1, -20, 0, 40)
+toggleFrame.Position = UDim2.new(0, 10, 0, yPosition)
+toggleFrame.BackgroundTransparency = 1
+toggleFrame.Parent = mainFrame
+
+local label = Instance.new("TextLabel")
+label.Size = UDim2.new(0.6, 0, 1, 0)
+label.BackgroundTransparency = 1
+label.Text = name
+label.TextColor3 = Color3.fromRGB(255, 255, 255)
+label.Font = Enum.Font.GothamBold
+label.TextScaled = true
+label.TextXAlignment = Enum.TextXAlignment.Left
+label.Parent = toggleFrame
+
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0, 50, 0, 25)
+button.Position = UDim2.new(1, -60, 0.5, -12)
+button.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+button.Text = ""
+button.AutoButtonColor = false
+button.BorderSizePixel = 0
+button.Parent = toggleFrame
+
+local buttonCorner = Instance.new("UICorner")
+buttonCorner.CornerRadius = UDim.new(1, 0)
+buttonCorner.Parent = button
+
+local knob = Instance.new("Frame")
+knob.Size = UDim2.new(0, 20, 0, 20)
+knob.Position = UDim2.new(1, -22, 0.5, -10)
+knob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+knob.BorderSizePixel = 0
+knob.Parent = button
+
+local knobCorner = Instance.new("UICorner")
+knobCorner.CornerRadius = UDim.new(1, 0)
+knobCorner.Parent = knob
+
+local toggled = true
+
+button.MouseButton1Click:Connect(function()
+toggled = not toggled
+
+if toggled then
+button.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+knob:TweenPosition(UDim2.new(1, -22, 0.5, -10), "Out", "Quad", 0.2, true)
+else
+button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+knob:TweenPosition(UDim2.new(0, 2, 0.5, -10), "Out", "Quad", 0.2, true)
+end
+end)
+end
+
+-- Create toggles
+createToggle("Trade Freeze", 10)
+createToggle("Force Accept", 55)
